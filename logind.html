@@ -1,0 +1,76 @@
+<html lang="en">
+
+<head>
+  <title>login</title>
+  <meta name="google-signin-scope" content="profile email">
+  <meta name="google-signin-client_id"
+    content="1082333177069-e4a9t2r7bobejeg5u8a067lj3ob079dj.apps.googleusercontent.com">
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+</head>
+
+<body>
+  <center
+    style="display: flex;flex-direction: column; max-width: 250px; margin: auto;padding-top: 4rem;justify-content: space-evenly;">
+    <h1>hellow</h1>
+    <img src="" alt="" srcset="" id="url">
+    <div>
+      <div id="x" style="padding:1rem; border-radius: 10px;"></div>
+    </div>
+    <div id="id"></div>
+    <div id="name"></div>
+    <div id="email"></div>
+    <!-- sign in  -->
+    <div id="signin" class="g-signin2" data-onsuccess="onSignIn"></div>
+    <!-- Sign out  -->
+    <button id="signout" style="display: none;" onclick="signOut();">Sign out</button>
+  </center>
+
+  <!-- <a href="#" onclick="signOut();">Sign out</a> -->
+  <script>
+    function signOut() {
+      var auth2 = gapi.auth2.getAuthInstance();
+      auth2.signOut().then(function () {
+        console.log('User signed out.');
+        location.reload();
+      });
+    }
+  </script>
+
+
+  <!-- <div id="content"></div> 
+    <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div> -->
+  <script>
+    function onSignIn(googleUser) {
+      // Useful data for your client-side scripts:
+      var profile = googleUser.getBasicProfile();
+      document.querySelector('#id').innerHTML = ("ID: " + profile.getId()); // Don't send this directly to your server!
+      document.querySelector('#name').innerHTML = ('Full Name: ' + profile.getName());
+      // document.querySelector('#gname').innerHTML=('Given Name: ' + profile.getGivenName());
+      // document.querySelector('#fname').innerHTML=('Family Name: ' + profile.getFamilyName());
+      document.querySelector('#url').innerHTML = ("Image URL: " + profile.getImageUrl());
+      document.querySelector('#email').innerHTML = ("Email: " + profile.getEmail());
+
+      // user image call
+      var img = document.createElement("img");
+      img.src = profile.getImageUrl();
+      var src = document.getElementById("x");
+      src.appendChild(img);
+
+      if (googleUser.getBasicProfile() != 0) {
+        document.getElementById('signout').style.display = "block";
+      }
+      if (googleUser.getBasicProfile() != 0) {
+        document.getElementById('signin').style.display = "none";
+      }
+
+
+      // The ID token you need to pass to your backend:
+      var id_token = googleUser.getAuthResponse().id_token;
+      console.log("ID Token: " + id_token);
+
+    }
+  </script>
+
+</body>
+
+</html>
